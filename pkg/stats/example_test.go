@@ -149,3 +149,64 @@ func TestCategoriesAvg_FoundOne(t *testing.T) {
 	}
 
 }
+
+
+func TestPeriodsDynamic_empty(t *testing.T) {
+	first := map[types.Category]types.Money{}
+	second := map[types.Category]types.Money{}
+
+	result := PeriodsDynamic(first, second)
+
+	if len(result)!= 0{
+		t.Error("длина не равна 0")
+	}
+
+}
+
+func TestPeriodsDynamic_addition(t *testing.T) {
+	first := map[types.Category]types.Money{
+		"auto": 10,
+		"food": 5,
+	}
+	second := map[types.Category]types.Money{
+		"auto": 50,
+		"food": 45,
+		"wear": 1000,
+	}
+	expected := map[types.Category]types.Money{
+		"auto": 40,
+		"food": 40,
+		"wear": 1000,
+	}
+	result := PeriodsDynamic(first, second)
+
+	if !reflect.DeepEqual(expected, result){
+		t.Errorf("invalid result: expected %v got: %v", expected, result)
+	}
+
+
+}
+func TestPeriodsDynamic(t *testing.T) {
+	first := map[types.Category]types.Money{
+		"auto": 2000,
+		"mobi": 1000,
+		"food": 3000,
+	}
+	second := map[types.Category]types.Money{
+		"auto": 3000,
+		"mobi": 500,
+		"food": 1000,
+	}
+	expected := map[types.Category]types.Money{
+		"auto": 1000,
+		"mobi": -500,
+		"food": -2000,
+	}
+
+	result := PeriodsDynamic(first, second)
+
+	if !reflect.DeepEqual(expected, result){
+		t.Errorf("invalid result: expected %v got: %v", expected, result)
+	}
+	
+}
