@@ -113,13 +113,13 @@ func TestCategoriesAvg_Multiplate(t *testing.T) {
 		{
 			ID: 4,
 			Category: "mobi",
-			Amount: 12000,
+			Amount: 1000,
 		},
 	}
 	expected := map[types.Category]types.Money{
-		"auto": 1000,
-		"fun": 500,
-		"mobi": 3000,
+		"auto": 2000,
+		"fun": 2000,
+		"mobi": 1000,
 	}
 	result := CategoriesAvg(payments)
 

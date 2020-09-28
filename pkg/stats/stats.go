@@ -29,17 +29,17 @@ func TotalInCategory(payments []types.Payment, category types.Category) (money t
 
 func CategoriesAvg(payments[]types.Payment) map[types.Category]types.Money{
 	categories := map[types.Category]types.Money{}
-	var i types.Money
+	avg :=  map[types.Category]types.Money{}
 
 	for _, payment := range payments{
 	categories[payment.Category] += payment.Amount
-
-	i++
+	avg[payment.Category]++
+	
 }
 
 	for key := range categories{
 
-	categories[key] /= i
+	categories[key] /= avg[key]
 }
 
 
