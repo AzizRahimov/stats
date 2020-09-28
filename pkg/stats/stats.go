@@ -4,7 +4,7 @@ import (
 	"github.com/AzizRahimov/bank/v2/pkg/types"
 )
 
-//Avg -
+//Avg - берет среднее значение
 func Avg(payments []types.Payment) (money types.Money) {
 	k := 0
 	for _, payment := range payments {
