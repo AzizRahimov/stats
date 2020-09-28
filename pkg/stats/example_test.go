@@ -3,6 +3,8 @@ package stats
 import (
 	"github.com/AzizRahimov/bank/v2/pkg/types"
 	"fmt"
+	"testing"
+	"reflect"
 )
 
 func ExampleAvg() {
@@ -58,4 +60,92 @@ func ExampleTotalInCategory() {
 	totalInCategory := TotalInCategory(payments, inCategory)
 	fmt.Println(totalInCategory)
 	//Output:  1000000
+}
+
+
+
+func TestCategoriesAvg_nill(t *testing.T) {
+	var payments []types.Payment;
+	
+
+	expected := map[types.Category]types.Money{
+		
+	}
+	result := CategoriesAvg(payments)
+
+	if !reflect.DeepEqual(expected, result){
+		t.Errorf("invalid result, expected: %v, actual: %v", expected, result)
+	}
+	
+	
+
+}
+
+func TestCategoriesAvg_empty(t *testing.T) {
+	payments := []types.Payment{}
+
+	result := CategoriesAvg(payments)
+
+	if len(result) != 0{
+		t.Error("длина не равно 0")
+	}
+
+	
+}
+
+func TestCategoriesAvg_Multiplate(t *testing.T) {
+	payments := []types.Payment {
+		{
+			ID: 1,
+			Category: "auto",
+			Amount: 2000,
+		},
+		{
+			ID: 2,
+			Category: "auto",
+			Amount: 2000,
+		},
+		{
+			ID: 3,
+			Category: "fun",
+			Amount: 2000,
+		},
+		{
+			ID: 4,
+			Category: "mobi",
+			Amount: 12000,
+		},
+	}
+	expected := map[types.Category]types.Money{
+		"auto": 1000,
+		"fun": 500,
+		"mobi": 3000,
+	}
+	result := CategoriesAvg(payments)
+
+	if !reflect.DeepEqual(expected, result){
+		t.Errorf("invalid result, expected: %v actual: %v", expected, result)
+
+	}
+
+}
+
+
+func TestCategoriesAvg_FoundOne(t *testing.T) {
+	payments := []types.Payment{
+		{
+			ID: 1,
+			Category: "auto",
+			Amount: 10000,
+		},
+	}
+	expected := map[types.Category]types.Money{
+		"auto": 10000,
+	}
+	result := CategoriesAvg(payments)
+
+	if !reflect.DeepEqual(expected, result){
+		t.Errorf("invalid result, expected: %v got: %v", expected, result)
+	}
+
 }
